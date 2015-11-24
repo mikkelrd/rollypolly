@@ -1,4 +1,4 @@
-import Add from './Add';
+import AddOption from './AddOption';
 import Option from './Option';
 
 export default React.createClass({
@@ -14,32 +14,7 @@ export default React.createClass({
   },
 
   componentDidMount () {
-    // this.interval = setInterval(function(){
-    //   this.getPoll()
-    // }.bind(this), 1000);
   },
-
-  // getPoll: function(){
-  //   $.ajax({
-  //     url: this.props.url,
-  //     type: 'GET',
-  //     beforeSend: function(request) {
-  //       request.setRequestHeader("X-Parse-Application-Id", '1tNw34UWSqjkyu4byPGV3q1G6hZcYQmYuvqx0abS');
-  //       request.setRequestHeader("X-Parse-REST-API-Key", 'ALlZ2WvYnreWNPfHQXoRRiDWt0pXkryYINGAzqnc');
-  //       request.setRequestHeader("Content-Type", 'application/json');
-  //     },
-  //     error: function(data) {
-  //       console.log('There was an error in getting the chats');
-  //     },
-  //     success: function(data) {
-  //       if (this.isMounted()) {
-  //         this.setState({
-  //           options: data.results
-  //         });
-  //       }
-  //     }.bind(this)
-  //   });
-  // },
 
   createOptions () {
     return this.state.options.map(function(item, index){
@@ -61,10 +36,11 @@ export default React.createClass({
   render () {
     return (
       <div>
+        <h3 className="">where to go for lunch</h3>
         <div className="options">
           {this.createOptions()}
         </div>
-        <Add add={this.addNewOption} />
+        <AddOption add={this.addNewOption} />
       </div>
     )
   }

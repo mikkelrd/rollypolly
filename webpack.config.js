@@ -20,6 +20,7 @@ module.exports = {
     new webpack.ProvidePlugin({
       React: 'react',
       ReactDOM: 'react-dom',
+      Router: 'react-router',
       // $: 'jquery',
       // _: 'underscore'
     }),
