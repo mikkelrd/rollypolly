@@ -1,8 +1,14 @@
 import Poll from './Poll';
 import firebaseUtils from './firebaseUtils';
 console.log(firebaseUtils);
-const Route = Router.Route;
-const DefaultRoute = Router.DefaultRoute;
+// const Router = ReactRouter.Router;
+// const Route = ReactRouter.Route;
+// const Link = ReactRouter.Link;
+import { Router, Route, IndexRoute, Link } from 'react-router';
+import { createHistory, useBasename } from 'history';
+const history = useBasename(createHistory)({
+  basename: '/'
+})
 
 const App = React.createClass({
 
@@ -20,12 +26,20 @@ const App = React.createClass({
     firebaseUtils.logout();
   },
 
+  polls () {
+    //get from firebase
+    //map of links array
+  },
+
   render () {
+    let c = this.props.children;
+    console.log('children:', c);
     return (
       <div className="container">
         <a onClick={this.login}>LOGIN</a>
         <a onClick={this.logout}>LOGOUT</a>
         <h2 className=""> ROLLY POLLY <br/> roll your own poll </h2>
+        <input type="text" />
         <Poll />
       </div>
     )
@@ -35,15 +49,12 @@ const App = React.createClass({
 });
 
 // const Routes = (
-//   <Route handler={App} >
-//     <Route path="poll/:poll" handler={Poll} />
-//     <DefaultRoute handler={App} >
-//   </Route>
+//   <Router history={history} >
+//     <Route path="/" component={App} >
+//       <Route path="poll/:poll" component={Poll} />
+//     </Route>
+//   </Router>
 // );
-
-// Router.run(Routes, function(Component){
-//   React.render(<Component /> , document.getElementById('app'));
-// });
-
+// ReactDOM.render(Routes , document.getElementById('app'));
 
 ReactDOM.render( <App />, document.getElementById('app') );
