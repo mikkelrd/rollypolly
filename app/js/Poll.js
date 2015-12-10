@@ -1,4 +1,4 @@
-import AddOption from './AddOption';
+// import AddOption from './AddOption';
 import Option from './Option';
 
 export default React.createClass({
@@ -16,7 +16,7 @@ export default React.createClass({
   componentDidMount () {
   },
 
-  createOptions () {
+  mapOptions () {
     return this.state.options.map(function(item, index){
       return (
         <Option
@@ -29,8 +29,10 @@ export default React.createClass({
   },
 
   addNewOption (e) {
-    this.setState({ options: this.state.options.concat( [ { text: e.value, vote: 0 } ] ) });
-    e.value = '';
+    if(e.keyCode === 13){
+      this.setState({ options: this.state.options.concat( [ { text: e.target.value, vote: 0 } ] ) });
+      e.target.value = '';
+    }
   },
 
   render () {
@@ -38,9 +40,15 @@ export default React.createClass({
       <div>
         <h3 className="">where to go for lunch</h3>
         <div className="options">
-          {this.createOptions()}
+          {this.mapOptions()}
         </div>
-        <AddOption add={this.addNewOption} />
+        <input
+          type="text"
+          placeholder="new response option..."
+          ref="newOptionInput"
+          className="option-add"
+          onKeyDown={this.addNewOption}
+        />
       </div>
     )
   }
