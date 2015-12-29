@@ -53,9 +53,10 @@ const getPolls = () => {
   const polls = [];
   fireRef.child("polls").on("value", (snap, prev) => {
     snap.forEach(s => {
-      const o = {};
-      o[s.key()] = s.val();
-      polls.push(o);
+      const a = [];
+      a[0] = s.key();
+      a[1] = s.val();
+      polls.push(a);
     });
     dfd.resolve(polls);
   });

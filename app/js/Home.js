@@ -8,20 +8,16 @@ export default React.createClass({
     };
   },
 
-  componentWillMount () {
-    this.getPolls();
-  },
-
-  getPolls () {
-    console.log(firebaseUtils.getPolls());
-    // firebaseUtils.getPolls().then(p => {
-    //   console.log(p);
-    //   this.setState({ polls: p });
-    // });
+  componentDidMount () {
+    firebaseUtils.getPolls().then(p => {
+      this.setState({ polls: p });
+    });
+      // this.setState({ polls: [ {title: 'one'}, {title: 'two'}] });
   },
 
   mapPolls () {
-    return this.state.polls.map((p, i) => (<a href="" key="{i}">{p.title}</a>));
+    console.log('line 19', this.state.polls);
+    return this.state.polls.map((p, i) => (<a href="" key={i}>{p[1].title}</a>));
   },
 
   addNewPoll (e) {
