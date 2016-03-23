@@ -42,7 +42,7 @@ export default React.createClass({
           type="text"
           placeholder="new poll name..."
           ref="newPollInput"
-          className="poll-add"
+          className=""
           onKeyDown={this.addNewPoll}
         />
       </div>

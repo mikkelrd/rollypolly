@@ -27,9 +27,9 @@ export default React.createClass({
 
   render () {
     return (
-      <div className="option" onClick={this.vote}>
-        <div className="option-text">{this.state.text}</div>
-        <div className="option-vote">{this.state.vote}</div>
+      <div className="" onClick={this.vote}>
+        <div className="">{this.state.text}</div>
+        <div className="">{this.state.vote}</div>
       </div>
     )
   }

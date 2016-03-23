@@ -30,10 +30,12 @@ export default React.createClass({
   },
 
   render () {
-    let loginLogout = this.state.loggedIn ? (<a onClick={this.logout}>LOGOUT</a>) : (<a onClick={this.login}>LOGIN</a>);
+    let auth = this.state.loggedIn ?
+      (<a className="button" onClick={this.logout}>LOGOUT</a>) :
+      (<a className="button" onClick={this.login}>LOGIN</a>);
     return (
-      <div className="container">
-        {loginLogout}
+      <div className="">
+        {auth}
         <h2 className=""> ROLLY POLLY <br/> roll your own poll </h2>
         {this.props.children}
       </div>

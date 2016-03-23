@@ -39,14 +39,14 @@ export default React.createClass({
     return (
       <div>
         <h3 className="">where to go for lunch</h3>
-        <div className="options">
+        <div className="">
           {this.mapOptions()}
         </div>
         <input
           type="text"
           placeholder="new response option..."
           ref="newOptionInput"
-          className="option-add"
+          className=""
           onKeyDown={this.addNewOption}
         />
       </div>

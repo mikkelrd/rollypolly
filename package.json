@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.9.1",
+    "foundation-sites": "^6.2.0",
+    "jquery": "^2.2.2",
     "rx": "^4.1.0"
   },
   "devDependencies": {

@@ -20,7 +20,11 @@ export default {
 	},
   resolve: {
     root: path.join(__dirname, '/src'),
-    extensions: ['', '.webpack.js', '.web.js', '.js', '.html', '.css', '.scss']
+    extensions: ['', '.webpack.js', '.web.js', '.js', '.html', '.css', '.scss'],
+    alias: {
+      'foundation': path.join(__dirname,
+        '/node_modules/foundation-sites/dist/foundation.js'),
+    }
   },
   module: {
     loaders: [
@@ -30,10 +34,15 @@ export default {
         loaders: ['react-hot', 'babel']
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         exclude: /node_modules/,
         loaders: ['style', 'css', 'postcss', 'sass']
       },
+      // {
+      //   test: /\.css$/,
+      //   exclude: /node_modules/,
+      //   loaders: ['style', 'css', 'postcss']
+      // },
       {
         test: /\index.html$/,
         loaders: ['file?name=index.html']
@@ -45,6 +54,8 @@ export default {
     new webpack.ProvidePlugin({
       React: 'react',
       ReactDOM: 'react-dom',
+      jQuery: 'jquery',
+      $: 'jquery',
     }),
   ]
 };
