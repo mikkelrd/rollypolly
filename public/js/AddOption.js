@@ -33,7 +33,6 @@ export default React.createClass({
           type="text"
           placeholder="new response option..."
           ref="newOptionInput"
-          className="option-add"
           onKeyDown={this.handleSubmit}
         />
       </div>

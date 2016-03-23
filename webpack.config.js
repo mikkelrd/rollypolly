@@ -2,9 +2,10 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
+  devtool: 'eval',
   // entry: './public/index.js',
   entry: [
-    'webpack-dev-server/client?http://0.0.0.0:8080',
+    'webpack-dev-server/client?http://0.0.0.0:8080/public/',
     'webpack/hot/only-dev-server',
     './public/index.js'
   ],

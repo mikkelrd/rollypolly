@@ -48,13 +48,13 @@ const App = React.createClass({
 
 });
 
-// const Routes = (
-//   <Router history={history} >
-//     <Route path="/" component={App} >
-//       <Route path="poll/:poll" component={Poll} />
-//     </Route>
-//   </Router>
-// );
-// ReactDOM.render(Routes , document.getElementById('app'));
+const Routes = (
+  <Router history={history} >
+    <Route path="/" component={App} >
+      <Route path="poll/:poll" component={Poll} />
+    </Route>
+  </Router>
+);
+ReactDOM.render(Routes , document.getElementById('app'));
 
-ReactDOM.render( <App />, document.getElementById('app') );
+// ReactDOM.render( <App />, document.getElementById('app') );
