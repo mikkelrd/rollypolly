@@ -4,9 +4,9 @@
   "description": "roll your own poll",
   "main": "server.js",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline",
+    "server": "webpack-dev-server --hot --inline",
     "watch": "webpack -w --inline",
-    "build": "webpack --inline"
+    "dist": "webpack"
   },
   "author": "Mikkel Davis",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "babel-core": "^5.8.29",
     "babel-loader": "^5.3.2",
     "css-loader": "^0.21.0",
+    "file-loader": "^0.8.5",
     "firebase": "^2.3.1",
     "history": "^1.13.1",
     "js-md5": "^0.3.0",
