@@ -1,7 +1,7 @@
-import './js/App.js';
+import './app/js/App.js';
 
 // require('bootstrap');
-import './css/less/index.less';
+import './app/less/index.less';
 
 
 

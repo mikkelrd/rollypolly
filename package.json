@@ -4,11 +4,13 @@
   "description": "roll your own poll",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack-dev-server --hot --inline",
+    "build": "webpack -w --inline"
   },
   "author": "Mikkel Davis",
   "license": "ISC",
   "dependencies": {
+    "q": "^1.4.1"
   },
   "devDependencies": {
     "babel-core": "^5.8.29",
