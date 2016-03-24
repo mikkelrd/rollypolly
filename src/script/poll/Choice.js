@@ -19,15 +19,13 @@ export default React.createClass({
     };
   },
 
-  vote (e) {
-    // console.log(e);
-    console.log(this.state);
+  castVote (e) {
     this.setState( { vote: this.state.vote + 1 } );
   },
 
   render () {
     return (
-      <div className="" onClick={this.vote}>
+      <div className="" onClick={this.castVote}>
         <div className="">{this.state.text}</div>
         <div className="">{this.state.vote}</div>
       </div>

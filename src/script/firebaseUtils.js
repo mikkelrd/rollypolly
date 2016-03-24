@@ -1,37 +1,12 @@
-import Q from 'q';
 import Firebase from 'firebase';
+import FirebasePromisified from 'firebase-promisified';
+
+FirebasePromisified(Firebase, Promise, Rx);
+
 const fireRef = new Firebase('https://rollypolly.firebaseio.com');
 console.log('stored fireAuthData:', fireRef.getAuth());
 
-const login = () => {
-  const dfd = Q.defer();
-  fireRef.authWithOAuthPopup("google", function(error, authData) {
-    if (error) {
-      dfd.reject(false);
-      console.log("Login with Popup Failed!", error);
-      if (error.code === "TRANSPORT_UNAVAILABLE") {
-        fireRef.authWithOAuthRedirect("google", function(error) {
-          if (error) {
-            console.log("Login with Redirect Failed!", error);
-          }
-        });
-      }
-    } else {
-      console.log("User athenticated successfully with payload:", fireRef.getAuth());
-      dfd.resolve(true)
-    }
-  }, {
-    scope: 'email'
-  });
-  return dfd.promise;
-}
-
-const logout = () => {
-  fireRef.unauth();
-  console.log("User unauthenticated successfully with fireAuthData value of:", fireRef.getAuth());
-}
-
-const authDataCallback = (authData) => {
+fireRef.onAuth((authData) => {
   if (authData) {
     // console.log("User " + authData.uid + " is logged in with " + authData.provider);
     fireRef.child("users").child(authData.uid).set({
@@ -44,30 +19,63 @@ const authDataCallback = (authData) => {
   } else {
     // console.log("User is logged out");
   }
-};
-
-fireRef.onAuth(authDataCallback);
-
-const getPolls = () => {
-  const dfd = Q.defer();
-  const polls = [];
-  fireRef.child("polls").on("value", (snap, prev) => {
-    snap.forEach(s => {
-      const a = [];
-      a[0] = s.key();
-      a[1] = s.val();
-      polls.push(a);
-    });
-    dfd.resolve(polls);
-  });
-  return dfd.promise;
-};
+});
 
 export default {
-  login:        login,
-  logout:       logout,
-  getFireRef:   ()        => fireRef,
-  getAuthData:  ()        => fireRef.getAuth(),
-  getPolls:     getPolls,
-  addPoll:      (newPoll) => fireRef.child("polls").push(newPoll),
+
+  getFireRef: () => fireRef ,
+  getAuthData: () => fireRef.getAuth(),
+
+  authLogin: () => {
+    return new Promise((resolve, reject) => {
+      fireRef.authWithOAuthPopup("google", function(error, authData) {
+        if (error) {
+          console.log("Login with Popup Failed!", error);
+          if (error.code === "TRANSPORT_UNAVAILABLE") {
+            fireRef.authWithOAuthRedirect("google", function(error) {
+              if (error) {
+                console.log("Login with Redirect Failed!", error);
+              }
+            });
+          }
+          reject(false);
+        } else {
+          console.log("User athenticated with payload:", fireRef.getAuth());
+          resolve(true);
+        }
+      }, {
+        scope: 'email'
+      });
+    });
+  },
+
+  authLogout: () => {
+    fireRef.unauth();
+    console.log("User unauthenticated successfully with fireAuthData value of:", fireRef.getAuth());
+  },
+
+  getAllPolls: () => fireRef.child('polls').observe('child_added')
+                      .map(p => ({
+                        id: p.snapshot.key(),
+                        poll: p.snapshot.val()
+                      })),
+
+  getPollById: (id) => fireRef.child(`polls/${id}`).observe('value'),
+
+  getChoices: (pollRef) => pollRef.child('choices').observe('child_added')
+                            .map(c => ({
+                              text: c.snapshot.key(),
+                              count: c.snapshot.val()
+                            })),
+
+  addPoll: (newPoll) => { fireRef.child('polls').push(newPoll); },
+
+  addChoice: () => {
+
+  },
+
+  castVote: () => {
+
+  },
+
 }

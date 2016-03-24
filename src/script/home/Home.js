@@ -1,4 +1,4 @@
-import firebaseUtils from '../firebaseUtils';
+import { getAllPolls } from '../firebaseUtils';
 import { Link } from 'react-router';
 
 export default React.createClass({
@@ -14,21 +14,26 @@ export default React.createClass({
   },
 
   getPolls () {
-    firebaseUtils.getPolls().then(p => {
-      this.setState({ polls: p });
-    });
+    let polls = [];
+    getAllPolls()
+      .subscribe(s => {
+        polls.push(s);
+        this.setState({polls});
+      });
   },
 
   mapPolls () {
-    console.log('line 19', this.state.polls);
-    return this.state.polls.map((p, i) => (
-      <div key={p[0]}><Link to={`/${p[0]}`}>{p[1].title}</Link></div>
+    return this.state.polls.map(p => (
+      <div key={p.id}>
+        <Link to={`/poll/${p.id}`}>
+          {p.poll.title}
+        </Link>
+      </div>
     ));
   },
 
   addNewPoll (e) {
     if(e.keyCode === 13){
-      console.log(firebaseUtils.getAuthData());
       let newPoll = {
         title: e.target.value,
         uid: firebaseUtils.getAuthData().uid

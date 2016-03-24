@@ -31,8 +31,8 @@ export default React.createClass({
       <div className="">
         <input
           type="text"
-          placeholder="new response option..."
-          ref="newOptionInput"
+          placeholder="new choice..."
+          ref="newChoiceInput"
           onKeyDown={this.handleSubmit}
         />
       </div>

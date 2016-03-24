@@ -1,36 +1,51 @@
-// import AddOption from './AddOption';
-import Option from './Option';
+import { getPollById, getChoices } from '../firebaseUtils';
+import Choice from './Choice';
+// import Add from './Add';
 
 export default React.createClass({
 
   getInitialState () {
+    this.pollStream = getPollById(this.props.params.pollId);
     return {
-      options: [
-        {text: 'taco bell', vote: 0},
-        {text: 'del taco', vote: 0},
-        {text: 'taco time', vote: 0},
-      ]
-    };
+      title: '',
+      choices: []
+    }
   },
 
   componentDidMount () {
+    this.getPoll();
   },
 
-  mapOptions () {
-    return this.state.options.map(function(item, index){
-      return (
-        <Option
-          key={index}
-          text={item.text}
-          vote={item.vote}
-        />
-      )
+  getPoll () {
+    this.pollStream.subscribe(pollSnapshot => {
+      if (!this.poll) this.poll = pollSnapshot;
+      this.getChoices(pollSnapshot.ref());
+      this.setState({
+        title: pollSnapshot.val().title,
+      });
     });
   },
 
-  addNewOption (e) {
+  getChoices (pollRef) {
+    this.choicesStream = getChoices(pollRef)
+      .subscribe(c => {
+        this.setState({ choices: this.state.choices.concat([c]) });
+      });
+  },
+
+  mapChoices () {
+    return this.state.choices.map((c, i) => (
+      <Choice
+        key={i}
+        text={c.text}
+        count={c.count}
+      />
+    ));
+  },
+
+  addNewChoice (e) {
     if(e.keyCode === 13){
-      this.setState({ options: this.state.options.concat( [ { text: e.target.value, vote: 0 } ] ) });
+      this.setState({ choices: this.state.choices.concat([ {text: e.target.value, count: 0} ]) });
       e.target.value = '';
     }
   },
@@ -38,16 +53,16 @@ export default React.createClass({
   render () {
     return (
       <div>
-        <h3 className="">where to go for lunch</h3>
+        <h4 className="">{this.state.title}</h4>
         <div className="">
-          {this.mapOptions()}
+          {this.mapChoices()}
         </div>
         <input
           type="text"
-          placeholder="new response option..."
-          ref="newOptionInput"
+          placeholder="new choice..."
+          ref="newChoiceInput"
           className=""
-          onKeyDown={this.addNewOption}
+          onKeyDown={this.addNewChoice}
         />
       </div>
     )
