@@ -9,19 +9,26 @@ export default React.createClass({
   },
 
   componentDidMount () {
+    this.getPolls();
+      // this.setState({ polls: [ {title: 'one'}, {title: 'two'}] });
+  },
+
+  getPolls () {
     firebaseUtils.getPolls().then(p => {
       this.setState({ polls: p });
     });
-      // this.setState({ polls: [ {title: 'one'}, {title: 'two'}] });
   },
 
   mapPolls () {
     console.log('line 19', this.state.polls);
-    return this.state.polls.map((p, i) => (<a href="" key={i}>{p[1].title}</a>));
+    return this.state.polls.map((p, i) => (
+      <div key={p[0]}><a href="">{p[1].title}</a></div>
+    ));
   },
 
   addNewPoll (e) {
     if(e.keyCode === 13){
+      console.log(firebaseUtils.getAuthData());
       let newPoll = {
         title: e.target.value,
         uid: firebaseUtils.getAuthData().uid

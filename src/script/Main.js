@@ -29,13 +29,19 @@ export default React.createClass({
     });
   },
 
+  componentDidMount () {
+    let authBtn, authClickStream;
+    authBtn = document.querySelector('#auth-btn');
+    authClickStream = Rx.Observable.fromEvent(authBtn, 'click')
+      .subscribe(e => this.state.loggedIn ? this.logout() : this.login() );
+  },
+
   render () {
-    let auth = this.state.loggedIn ?
-      (<a className="button" onClick={this.logout}>LOGOUT</a>) :
-      (<a className="button" onClick={this.login}>LOGIN</a>);
     return (
       <div className="">
-        {auth}
+        <button className="button" id="auth-btn">
+          {this.state.loggedIn ? 'LOGOUT' : 'LOGIN'}
+        </button>
         <h2 className=""> ROLLY POLLY <br/> roll your own poll </h2>
         {this.props.children}
       </div>
