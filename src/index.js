@@ -5,5 +5,6 @@ import './style/index.scss';
 
 // add options yes no
 // more than one vote
-// list features at top of poll
+// list enabled features at top of poll
 // basic features: create, lock, enable add, enable see results before vote
+// results view with pie chart

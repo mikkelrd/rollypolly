@@ -1,4 +1,5 @@
-import firebaseUtils from './firebaseUtils';
+import firebaseUtils from '../firebaseUtils';
+import { Link } from 'react-router';
 
 export default React.createClass({
 
@@ -10,7 +11,6 @@ export default React.createClass({
 
   componentDidMount () {
     this.getPolls();
-      // this.setState({ polls: [ {title: 'one'}, {title: 'two'}] });
   },
 
   getPolls () {
@@ -22,7 +22,7 @@ export default React.createClass({
   mapPolls () {
     console.log('line 19', this.state.polls);
     return this.state.polls.map((p, i) => (
-      <div key={p[0]}><a href="">{p[1].title}</a></div>
+      <div key={p[0]}><Link to={`/${p[0]}`}>{p[1].title}</Link></div>
     ));
   },
 
