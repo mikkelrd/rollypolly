@@ -1,11 +1,11 @@
-import { getPollById, getChoices } from '../firebaseUtils';
+import { getPollStreamById, getChoicesStream, addChoice } from '../firebaseUtils';
 import Choice from './Choice';
-// import Add from './Add';
 
 export default React.createClass({
 
   getInitialState () {
-    this.pollStream = getPollById(this.props.params.pollId);
+    this.poll = {id: this.props.params.pollId};
+    this.pollStream = getPollStreamById(this.props.params.pollId);
     return {
       title: '',
       choices: []
@@ -14,6 +14,12 @@ export default React.createClass({
 
   componentDidMount () {
     this.getPoll();
+    let newChoiceInput = document.querySelector('#new-choice-input');
+    let newChoiceInputStream = Rx.Observable.fromEvent(newChoiceInput, 'submit')
+      .subscribe(e => {
+        addChoice(this.poll.ref(), e.target[0].value);
+        e.target[0].value = '';
+      });
   },
 
   getPoll () {
@@ -27,7 +33,8 @@ export default React.createClass({
   },
 
   getChoices (pollRef) {
-    this.choicesStream = getChoices(pollRef)
+    this.choicesStream = getChoicesStream(pollRef)
+      .filter(c => this.state.choices.findIndex(e => e.text === c.text) === -1)
       .subscribe(c => {
         this.setState({ choices: this.state.choices.concat([c]) });
       });
@@ -37,33 +44,29 @@ export default React.createClass({
     return this.state.choices.map((c, i) => (
       <Choice
         key={i}
+        reactKey={i}
         text={c.text}
         count={c.count}
+        poll={this.poll}
       />
     ));
   },
 
-  addNewChoice (e) {
-    if(e.keyCode === 13){
-      this.setState({ choices: this.state.choices.concat([ {text: e.target.value, count: 0} ]) });
-      e.target.value = '';
-    }
-  },
-
   render () {
     return (
-      <div>
-        <h4 className="">{this.state.title}</h4>
-        <div className="">
+      <div className="container">
+        <h4 className="italic margin-bottom">{this.state.title}</h4>
+        <div className="choices margin-bottom">
           {this.mapChoices()}
         </div>
-        <input
-          type="text"
-          placeholder="new choice..."
-          ref="newChoiceInput"
-          className=""
-          onKeyDown={this.addNewChoice}
-        />
+        <form id="new-choice-input">
+          <input
+            type="text"
+            placeholder="new choice..."
+            ref="newChoiceInput"
+            className="input"
+          />
+        </form>
       </div>
     )
   }

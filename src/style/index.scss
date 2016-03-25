@@ -1,2 +1,42 @@
+@import 'settings';
 @import '../../node_modules/foundation-sites/dist/foundation.css';
 @import '../../node_modules/foundation-sites/scss/foundation.scss';
+
+.center { text-align: center; }
+.italic { font-style: italic; }
+.auto { margin: 0 auto; }
+.margin-bottom { margin-bottom: 20px; }
+.margin-bottom-small { margin-bottom: 10px; }
+.pointer { cursor: pointer; }
+
+
+html, body {
+  font-size: 100%;
+  font-family: 'Oxygen', sans-serif !important;
+  background-color: #EFEFEF;
+}
+
+.sub { margin-bottom: 30px; }
+
+.container {
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #FFFFFF;
+}
+
+.choices { margin-bottom: 30px; }
+.choice { display: flex; }
+.count {
+  width: 50px;
+  margin-left: 30px;
+}
+
+.input {
+  height: auto;
+  font-size: 0.9rem;
+  padding: 0.5rem !important;
+  box-shadow: none;
+  background-color: #FFFFFF;
+  &:focus { border-color: #2199e8; }
+}

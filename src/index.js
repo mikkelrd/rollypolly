@@ -8,4 +8,5 @@ import './style/index.scss';
 // list enabled features at top of poll
 // basic features: create, lock, enable add, enable see results before vote
 // results view with pie chart
-// figure out why can't enter url in browser
+// figure out why can't enter url in browser when no hash
+// dispose events on unmount

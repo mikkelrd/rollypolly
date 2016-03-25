@@ -1,4 +1,4 @@
-import { getAllPolls } from '../firebaseUtils';
+import { getAllPollsStream } from '../firebaseUtils';
 import { Link } from 'react-router';
 
 export default React.createClass({
@@ -15,7 +15,7 @@ export default React.createClass({
 
   getPolls () {
     let polls = [];
-    getAllPolls()
+    getAllPollsStream()
       .subscribe(s => {
         polls.push(s);
         this.setState({polls});
@@ -46,15 +46,17 @@ export default React.createClass({
 
   render () {
     return (
-      <div>
+      <div className="container">
         <h4>my polls</h4>
-        {this.mapPolls()}
+        <div className="polls-list margin-bottom">
+          {this.mapPolls()}
+        </div>
         <h4>create new</h4>
         <input
           type="text"
           placeholder="new poll name..."
           ref="newPollInput"
-          className=""
+          className="input"
           onKeyDown={this.addNewPoll}
         />
       </div>

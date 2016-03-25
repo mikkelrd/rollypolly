@@ -1,7 +1,7 @@
 import Home from './home/Home';
 import Poll from './poll/Poll';
-import { Router, Route, IndexRoute, Link } from 'react-router';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
+import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
+// import createBrowserHistory from 'history/lib/createBrowserHistory';
 import { authLogin, authLogout, getAuthData } from './firebaseUtils';
 
 const Main = React.createClass({
@@ -26,20 +26,19 @@ const Main = React.createClass({
   },
 
   componentDidMount () {
-    let authBtn, authClickStream;
-    authBtn = document.querySelector('#auth-btn');
-    authClickStream = Rx.Observable.fromEvent(authBtn, 'click')
+    let authBtn = document.querySelector('#auth-btn');
+    let authClickStream = Rx.Observable.fromEvent(authBtn, 'click')
       .subscribe(e => this.state.loggedIn ? this.logout() : this.login() );
   },
 
   render () {
     return (
       <div className="">
-        <button className="button" id="auth-btn">
+        <div className="center"><button className="small button" id="auth-btn">
           {this.state.loggedIn ? 'LOGOUT' : 'LOGIN'}
-        </button>
-        <Link to="/"><h2 className="">ROLLY POLLY</h2></Link>
-        <h3>roll your own poll</h3>
+        </button></div>
+        <Link to="/"><h2 className="center">ROLLY POLLY</h2></Link>
+        <h4 className="center sub">roll your own poll</h4>
         {this.props.children}
       </div>
     )
@@ -48,7 +47,8 @@ const Main = React.createClass({
 });
 
 const Routes = (
-  <Router history={createBrowserHistory()}>
+  <Router history={browserHistory}>
+  {/*<Router history={createBrowserHistory()}>*/}
     <Route path="/" component={Main} >
       <IndexRoute component={Home} />
       <Route path="poll/:pollId" component={Poll} />

@@ -23,7 +23,9 @@ fireRef.onAuth((authData) => {
 
 export default {
 
-  getFireRef: () => fireRef ,
+  getMainFireRef: () => fireRef ,
+  getFireRef: (child, ref) => ref ? ref.child(child) : fireRef.child(child) ,
+
   getAuthData: () => fireRef.getAuth(),
 
   authLogin: () => {
@@ -54,28 +56,34 @@ export default {
     console.log("User unauthenticated successfully with fireAuthData value of:", fireRef.getAuth());
   },
 
-  getAllPolls: () => fireRef.child('polls').observe('child_added')
-                      .map(p => ({
-                        id: p.snapshot.key(),
-                        poll: p.snapshot.val()
-                      })),
+  getAllPollsStream: () =>
+    fireRef.child('polls').observe('child_changed')
+      .map(p => ({
+        id: p.snapshot.key(),
+        poll: p.snapshot.val()
+      })),
 
-  getPollById: (id) => fireRef.child(`polls/${id}`).observe('value'),
+  getPollStreamById: (id) => fireRef.child(`polls/${id}`).observe('value'),
 
-  getChoices: (pollRef) => pollRef.child('choices').observe('child_added')
-                            .map(c => ({
-                              text: c.snapshot.key(),
-                              count: c.snapshot.val()
-                            })),
+  getChoicesStream: (pollRef) =>
+    pollRef.child('choices').observe('child_added')
+      .map(c => ({
+        text: c.snapshot.key(),
+        count: c.snapshot.val()
+      })),
 
   addPoll: (newPoll) => { fireRef.child('polls').push(newPoll); },
 
-  addChoice: () => {
-
+  addChoice: (pollRef, newChoice) => {
+    let obj = {};
+    obj[newChoice] = 0;
+    pollRef.child('choices').update(obj);
   },
 
-  castVote: () => {
+  getCountStream: (choiceRef) => choiceRef.observe('value'),
 
+  castVote: (choiceRef) => {
+    choiceRef.transaction(currVal => ((currVal || 0) + 1));
   },
 
 }
