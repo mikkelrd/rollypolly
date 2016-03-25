@@ -18,15 +18,15 @@ export default React.createClass({
     let newChoiceInput = document.querySelector('#new-choice-input');
     let newChoiceInputStream = Rx.Observable.fromEvent(newChoiceInput, 'submit')
       .subscribe(e => {
-        addChoice(this.poll.ref(), e.target[0].value);
+        addChoice(this.pollRef, e.target[0].value);
         e.target[0].value = '';
       });
   },
 
   getPoll () {
     this.pollStream.subscribe(pollSnapshot => {
-      if (!this.poll) this.poll = pollSnapshot;
-      this.getChoices(pollSnapshot.ref());
+      this.pollRef = pollSnapshot.ref();
+      this.getChoices(this.pollRef);
       this.setState({
         title: pollSnapshot.val().title,
       });
