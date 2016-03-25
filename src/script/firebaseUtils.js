@@ -57,7 +57,7 @@ export default {
   },
 
   getAllPollsStream: () =>
-    fireRef.child('polls').observe('child_changed')
+    fireRef.child('polls').observe('child_added')
       .map(p => ({
         id: p.snapshot.key(),
         poll: p.snapshot.val()

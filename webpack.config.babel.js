@@ -55,6 +55,8 @@ export default {
       React: 'react',
       ReactDOM: 'react-dom',
       Rx: 'rx',
+      d3: 'd3',
+      c3: 'c3',
       jQuery: 'jquery',
       $: 'jquery',
     }),

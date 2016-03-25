@@ -10,3 +10,4 @@ import './style/index.scss';
 // results view with pie chart
 // figure out why can't enter url in browser when no hash
 // dispose events on unmount
+// child_removed

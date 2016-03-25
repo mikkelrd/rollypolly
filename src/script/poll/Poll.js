@@ -1,5 +1,6 @@
 import { getPollStreamById, getChoicesStream, addChoice } from '../firebaseUtils';
 import Choice from './Choice';
+import Chart from './Chart';
 
 export default React.createClass({
 
@@ -40,6 +41,14 @@ export default React.createClass({
       });
   },
 
+  updateCount (index, newCount) {
+    let choices = this.state.choices;
+    if (choices[index].count !== newCount) {
+      choices[index].count = newCount;
+      this.setState({choices});
+    };
+  },
+
   mapChoices () {
     return this.state.choices.map((c, i) => (
       <Choice
@@ -48,16 +57,22 @@ export default React.createClass({
         text={c.text}
         count={c.count}
         poll={this.poll}
+        update={this.updateCount}
       />
     ));
+  },
+
+  componentWillUnmount () {
+    this.pollStream.dispose();
   },
 
   render () {
     return (
       <div className="container">
         <h4 className="italic margin-bottom">{this.state.title}</h4>
-        <div className="choices margin-bottom">
-          {this.mapChoices()}
+        <div className="poll-data margin-bottom">
+          <div className="choices">{this.mapChoices()}</div>
+          <Chart data={this.state.choices} />
         </div>
         <form id="new-choice-input">
           <input

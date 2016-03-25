@@ -5,7 +5,8 @@ export default React.createClass({
   propTypes: {
     text: React.PropTypes.string,
     count: React.PropTypes.number,
-    poll: React.PropTypes.object
+    poll: React.PropTypes.object,
+    update: React.PropTypes.func
   },
 
   getDefaultProps () {
@@ -26,6 +27,7 @@ export default React.createClass({
     this.choiceRef = getFireRef(`polls/${this.props.poll.id}/choices/${this.props.text}`);
     this.countStream = getCountStream(this.choiceRef)
       .subscribe(countSnapshot => {
+        this.props.update(this.props.reactKey, countSnapshot.val());
         this.setState({ count: countSnapshot.val() });
       });
   },
