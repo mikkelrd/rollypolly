@@ -2,9 +2,8 @@
   "name": "rollypolly",
   "version": "0.1.1",
   "description": "roll your own poll",
-  "main": "server.js",
   "scripts": {
-    "server": "webpack-dev-server --hot --inline",
+    "start": "webpack-dev-server --hot --inline",
     "watch": "webpack -w --inline",
     "dist": "webpack"
   },

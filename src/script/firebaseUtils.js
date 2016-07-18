@@ -37,10 +37,15 @@ export default {
             fireRef.authWithOAuthRedirect("google", function(error) {
               if (error) {
                 console.log("Login with Redirect Failed!", error);
+                reject(false);
+              } else {
+                console.log("User athenticated with payload:", fireRef.getAuth());
+                resolve(true);
               }
             });
+          } else {
+            reject(false);
           }
-          reject(false);
         } else {
           console.log("User athenticated with payload:", fireRef.getAuth());
           resolve(true);
